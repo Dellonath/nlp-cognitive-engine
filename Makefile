@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3 list_files
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -28,6 +28,9 @@ requirements: test_environment
 ## Make Dataset
 data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
+
+list_files:
+	ls
 
 ## Delete all compiled Python files
 clean:
