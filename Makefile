@@ -1,8 +1,14 @@
-clean_text: 
-	c:/Users/dello/Desktop/chatbot-text-classifier/env/Scripts/python.exe c:/Users/dello/Desktop/chatbot-text-classifier/src/features/preprocessing.py $(input)
+clean: 
+	env/Scripts/python.exe src/features/clean_text.py $(input)
 
-clean_data:
-	c:/Users/dello/Desktop/chatbot-text-classifier/env/Scripts/python.exe c:/Users/dello/Desktop/chatbot-text-classifier/src/features/clean_data.py $(input) 
+prepare_data:
+	env/Scripts/python.exe src/features/prepare_data.py $(input) 
 
-make_features:
-	c:/Users/dello/Desktop/chatbot-text-classifier/env/Scripts/python.exe c:/Users/dello/Desktop/chatbot-text-classifier/src/features/make_features.py $(input) 
+train_data:
+	env/Scripts/python.exe src/features/train_data.py $(input) 
+
+train:
+	env/Scripts/python.exe src/models/train_model.py
+
+predict:
+	env/Scripts/python.exe src/models/predict_model.py $(input)

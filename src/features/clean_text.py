@@ -2,7 +2,7 @@
 import sys
 import unidecode
 
-class Preprocessing():
+class CleanText():
 
     def __init__(self):
         self.punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
@@ -29,8 +29,8 @@ class Preprocessing():
         return text.lower()
     
     def __load_stopwords(self):
-        return open('data/external/stopwords.csv', 'r').read().split('\\n')
+        return open('data/external/stopwords.csv', 'r', encoding = 'utf-8').read().split('\n')
 
 if __name__ == '__main__':
-    preprocessing = Preprocessing()
-    print(preprocessing.text_cleaning(sys.argv[1]))
+    ct = CleanText()
+    print(ct.text_cleaning(' '.join(sys.argv[1:]))) 
