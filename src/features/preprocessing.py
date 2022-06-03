@@ -1,14 +1,20 @@
 
+import sys
 import unidecode
 
 class Preprocessing():
 
     def __init__(self):
         self.punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
-        self.stopwords = __load_stopwords()
+        self.stopwords = self.__load_stopwords()
     
     def text_cleaning(self, text):
-        pass 
+        text = self.__remove_stopwords(text)
+        text = self.__remove_punctuation(text)
+        text = self.__remove_accents(text)
+        text = self.__lower_case(text)
+
+        return text
     
     def __remove_accents(self, text):
         return unidecode.unidecode(text)
@@ -18,6 +24,13 @@ class Preprocessing():
 
     def __remove_stopwords(self, text):
         return ' '.join([word for word in text.split() if word not in self.stopwords])
+
+    def __lower_case(self, text):
+        return text.lower()
     
     def __load_stopwords(self):
-        return open('../../data/external/stopwords.txt', 'r').read().split('\\n')
+        return open('data/external/stopwords.csv', 'r').read().split('\\n')
+
+if __name__ == '__main__':
+    preprocessing = Preprocessing()
+    print(preprocessing.text_cleaning(sys.argv[1]))
