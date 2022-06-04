@@ -157,15 +157,19 @@ _____________
     │                         generated with `pip freeze > requirements.txt`
     │
     └── src                <- Source code for use in this project.
-       ├── data            <- Scripts to download or generate data
+       │
+       ├── api             <- Scripts to make an API
+       │   └── api.py      <- Script to serve the model as an API
+       │
+       ├── data            <- Scripts to download or generate data
        │   ├── prepare_data.py
        │   └── train_data.py
        │
-       ├── features       <- Scripts to turn clean data and prepare to encoder
+       ├── features        <- Scripts to turn clean data and prepare to encoder
        │   └── preprocessing.py
        │
-       └── models         <- Scripts to train models and then use trained models to make
-           │                 predictions
+       └── models          <- Scripts to train models and then use trained models to make
+           │                  predictions
            ├── predict_model.py
            └── train_model.py
     

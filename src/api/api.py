@@ -1,5 +1,4 @@
 from flask import Flask, request
-import json 
 import sys
 
 sys.path.append('src/models')
