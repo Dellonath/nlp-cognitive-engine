@@ -2,14 +2,14 @@
 import sys
 import unidecode
 
-class CleanText():
+class Preprocessing():
 
     def __init__(self):
         self.punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
         self.stopwords = self.__load_stopwords()
     
-    def text_cleaning(self, text):
-        text = self.__remove_stopwords(text)
+    def clean(self, text):
+        # text = self.__remove_stopwords(text)
         text = self.__remove_punctuation(text)
         text = self.__remove_accents(text)
         text = self.__lower_case(text)
@@ -32,5 +32,5 @@ class CleanText():
         return open('data/external/stopwords.csv', 'r', encoding = 'utf-8').read().split('\n')
 
 if __name__ == '__main__':
-    ct = CleanText()
-    print(ct.text_cleaning(' '.join(sys.argv[1:]))) 
+    preprocess = Preprocessing()
+    print(preprocess.clean(' '.join(sys.argv[1:]))) 
