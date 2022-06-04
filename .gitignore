@@ -56,9 +56,6 @@ docs/_build/
 # PyBuilder
 target/
 
-# exclude data from source control by default
-/data/
-
 # DotEnv configuration
 .env
 
