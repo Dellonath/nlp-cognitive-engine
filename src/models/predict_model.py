@@ -58,7 +58,7 @@ class Predict():
     def __get_top_five_intents(self, prediction_array):
 
         # save a list of confidence for each intent
-        intents_array = [{'intent': self.TARGET[i], 'confidence': prediction_array[i]} for i in range(len(self.TARGET))]
+        intents_array = [{'intent': self.TARGET[i], 'confidence': '{:.10f}'.format(prediction_array[i])} for i in range(len(self.TARGET))]
 
         # organize the output
         # sort the intents by confidence and select top 5
@@ -69,5 +69,4 @@ class Predict():
 if __name__ == '__main__':
 
     predictor = Predict()
-    print(predictor.predict(' '.join(sys.argv[1:])))
 

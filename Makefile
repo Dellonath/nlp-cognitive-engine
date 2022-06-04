@@ -1,8 +1,8 @@
 
-prepare_data:
+prepare data:
 	env/Scripts/python.exe src/data/prepare_data.py
 
-train_data:
+train data:
 	env/Scripts/python.exe src/data/train_data.py 
 
 train:
@@ -16,3 +16,6 @@ clean:
 
 all: prepare_data train_data train
 	echo 'Model ready to use!'
+
+run deploy:
+	env/Scripts/python.exe src/api/api.py

@@ -25,22 +25,23 @@
   </a>
 </p>
 
-__________
+<br>
  
-<h3 align="center">
+<h2 align="center">
     How to use
-</h3>
+</h2>
+
 
 First of all, the data <b>must be</b> in the same folder (data/raw) and in the following format (with these columns names and in .parquet format):
 
 | intent  | phrase |
 | ------------- | ------------- |
-| credit_card  | I would like a credit card  |
-| credit_card  | How I can get a credit card?  |
-| credit_card  | I wish for a credit card?  |
+| credit_card  | I would like a credit card |
+| credit_card  | How I can get a credit card? |
+| credit_card  | I wish for a credit card? |
 | ...  | ...  |
-| change_password  | I want to change my password  |
-| change_password  | Can I change my password on the app?  |
+| change_password  | I want to change my password |
+| change_password  | Can I change my password on the app? |
 | ...  | ...  |
 | create_account  | Do I need a credit card to create a account? |
 | create_account  | I would like to create a account in this bank |
@@ -77,31 +78,58 @@ At the end, you can run the following command to run the application and prepare
 This command will prepare the data, train the model and save it in the model folder. After that, you can run the following command to predict intent to a message:
 
 ```terminal
-  make predict input="I would like to get a credit card"
+  make predict input="I want a credit card"
 ```
 
 The output must be a json with some infos about the message and the predicted intent:
+
 ```json
 {
     "user": {
-        "text": "I would like to get a credit card", 
-        "cleaned": "i would like to get a credit card"
+        "text": "I want a credit card", 
+        "cleaned": "i want a credit card"
     }, 
     "intent": {
         "name": "credit_card", 
-        "confidence": 0.9811101
+        "confidence": "0.9811101042"
     }, 
     "intents": [
-        {"intent": "credit_card", "confidence": 0.9811101}, 
-        {"intent": "create_account", "confidence": 0.0079928385}, 
-        {"intent": "change_password", "confidence": 0.0048914794}, 
-        {"intent": "alter_personal_data", "confidence": 0.001938776}, 
-        {"intent": "check_credit_limit", "confidence": 0.00084826007}
+        {"intent": "credit_card", "confidence": "0.9811101042"}, 
+        {"intent": "create_account", "confidence": "0.0079928385"}, 
+        {"intent": "change_password", "confidence": "0.0048914794"}, 
+        {"intent": "alter_personal_data", "confidence": "0.0019387764"}, 
+        {"intent": "check_credit_limit", "confidence": "0.00084826007"}
     ]
 }
 ```
 
-where the user is the message that will be predicted, the intent is the predicted intent and the intents is a list of top 5 intents with their confidence.
+Where the user is the message that will be predicted, the intent is the predicted intent and the intents is a list of top 5 intents with their confidence.
+
+<h2 align="center">
+    API
+</h2>
+
+You can execute the Cognitive Engine as a API to predict an intent of a message:
+
+```terminal
+make deploy
+```
+
+Now, just access the following url in your browser:
+
+```url
+http://127.0.0.1:5000/predict?text=<TEXT>
+```
+
+E.g.
+```
+http://127.0.0.1:5000/predict?text="I want a credit card"
+```
+
+<p align="center">
+    <img width=700px src="https://user-images.githubusercontent.com/56659549/172020552-bd4c1be7-2608-4058-8388-8829769a834b.png">
+</p>
+
 _____________
  
 <h3 align="center">
