@@ -9,7 +9,7 @@ from preprocessing import Preprocessing
 class Predict():
     
     def __init__(self):
-        self.MODEL = keras.models.load_model('models/keras')
+        self.MODEL = keras.models.load_model('models/keras/model.h5')
         self.TFIDF = pickle.load(open('models/tfidf/vectorizer.pickle', 'rb'))
         self.TARGET = pd.read_parquet('data/train/train-target.parquet').columns
 
@@ -67,6 +67,7 @@ class Predict():
         return top_five_intents
 
 if __name__ == '__main__':
-
+    text = ' '.join(sys.argv[1:])
     predictor = Predict()
+    print(predictor.predict(text))
 

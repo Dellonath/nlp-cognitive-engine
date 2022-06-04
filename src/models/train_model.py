@@ -31,9 +31,9 @@ class CognitiveEngine():
 
         self.model.fit(train_data, train_labels, epochs = epochs)
 
-    def save_model(self, path = 'models/keras'):
+    def save_model(self, path = 'models/keras/model.h5'):
         # save the final model in the models directory
-        self.model.save(path)
+        self.model.save(path, save_format = 'h5')
 
 if __name__ == '__main__':
 

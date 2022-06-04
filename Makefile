@@ -1,8 +1,8 @@
 
-prepare data:
+prepare_data:
 	env/Scripts/python.exe src/data/prepare_data.py
 
-train data:
+train_data:
 	env/Scripts/python.exe src/data/train_data.py 
 
 train:
