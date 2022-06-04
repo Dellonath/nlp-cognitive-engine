@@ -129,12 +129,10 @@ http://127.0.0.1:5000/predict?text="I want a credit card"
 <p align="center">
     <img width=700px src="https://user-images.githubusercontent.com/56659549/172020552-bd4c1be7-2608-4058-8388-8829769a834b.png">
 </p>
-
-_____________
  
-<h3 align="center">
+<h2 align="center">
     Project Organization
-</h3>
+</h2>
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
