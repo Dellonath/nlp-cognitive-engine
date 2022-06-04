@@ -1,9 +1,9 @@
 
 prepare_data:
-	env/Scripts/python.exe src/features/prepare_data.py
+	env/Scripts/python.exe src/data/prepare_data.py
 
 train_data:
-	env/Scripts/python.exe src/features/train_data.py 
+	env/Scripts/python.exe src/data/train_data.py 
 
 train:
 	env/Scripts/python.exe src/models/train_model.py

@@ -2,6 +2,7 @@ import os
 import sys
 import pandas as pd 
 import random
+sys.path.append('src/features')
 from preprocessing import Preprocessing
 from tqdm import tqdm 
 tqdm.pandas()

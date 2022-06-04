@@ -2,6 +2,7 @@ import os
 import sys
 import pandas as pd 
 import pickle
+sys.path.append('src/features')
 from preprocessing import Preprocessing
 from sklearn.feature_extraction.text import TfidfVectorizer
 
