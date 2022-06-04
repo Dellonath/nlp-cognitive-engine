@@ -29,7 +29,8 @@ class PrepareData():
         phrase = self.__read_data('data/raw/raw-phrase.parquet')
 
         # concatenate the data to facilitate balancing
-        data = pd.concat([target, phrase], axis = 1)
+        # remove duplicated rows
+        data = pd.concat([target, phrase], axis = 1).drop_duplicates()
 
         # create a column with the cleaned phrases
         data.insert(data.shape[1], 'phrase_cleaned', data.phrase.progress_apply(self.preprocessing.clean))

@@ -7,7 +7,7 @@
 </p>
 
 <h2 align="center">
-    A Cognitive Engine using the KERAS framework and other tools to be used as a Natural Language Processing engine in Chatbots.
+    A Cognitive Engine using the KERAS framework and other tools to be used as a Natural Language Processing engine in Chatbots
 </h2>
 
 <br>
@@ -80,7 +80,7 @@ This command will prepare the data, train the model and save it in the model fol
   make predict input="I would like to get a credit card"
 ```
 
-The output must be a json with some infos about the message and the predicted intent.
+The output must be a json with some infos about the message and the predicted intent:
 ```json
 {
     "user": {
