@@ -9,7 +9,7 @@ predictor = Predict()
 
 @app.route('/', methods = ['GET'])
 def hello_world():
-    return "<h2>Cognitive Engine API</h2><br><p>API to predict intent of a phrase.</p>"
+    return "<h2>Cognitive Engine API</h2><br><p>API to predict target of a phrase.</p>"
 
 @app.route('/predict', methods = ['GET'])
 def predict():

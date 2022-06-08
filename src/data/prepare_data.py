@@ -1,4 +1,3 @@
-import os
 import sys
 import pandas as pd 
 import random
@@ -13,11 +12,11 @@ class PrepareData():
     Class to apply the preprocessing to the data
     '''
 
-    def __init__(self):
-        
+    def __init__(self, data_type):
+        self.data_type = data_type
         self.preprocessing = Preprocessing()
-
-    def prepare(self):
+        
+    def prepare(self, path_data, path_target):
 
         ''' 
         This method cleans the phrases in the data. It receives the name of the dataset in data/raw/ and the name of the output file in data/processed/
@@ -25,12 +24,13 @@ class PrepareData():
         ''' 
 
         # read raw data files
-        target = self.__read_data('data/raw/raw-target.parquet')
-        phrase = self.__read_data('data/raw/raw-phrase.parquet')
+        target = self.__read_data(path_target)
+        phrase = self.__read_data(path_data)
 
         # concatenate the data to facilitate balancing
-        # remove duplicated rows
-        data = pd.concat([target, phrase], axis = 1).drop_duplicates()
+        # remove duplicated example messages
+        data = pd.concat([target, phrase], axis = 1).drop_duplicates(['phrase'])
+        data.columns = ['target', 'phrase']
 
         # create a column with the cleaned phrases
         data.insert(data.shape[1], 'phrase_cleaned', data.phrase.progress_apply(self.preprocessing.clean))
@@ -38,40 +38,40 @@ class PrepareData():
         # balance data
         data = self.__balance_data(data)
 
-        # split the data into intent and phrase to save different files
-        target = data.intent.to_frame()
+        # split the data into target and phrase to save different files
+        target = data.target.to_frame() # target
         phrase = data.phrase_cleaned.to_frame()
 
         # save data
-        target.to_parquet(f'data/processed/processed-target.parquet', index = False, engine = 'pyarrow')
-        phrase.to_parquet(f'data/processed/processed-phrase.parquet', index = False, engine = 'pyarrow')
+        target.to_parquet(f'data/processed/{self.data_type}/processed-target.parquet', index = False, engine = 'pyarrow')
+        phrase.to_parquet(f'data/processed/{self.data_type}/processed-phrase.parquet', index = False, engine = 'pyarrow')
 
     def __read_data(self, path):
         return pd.read_parquet(path)
 
-    def __balance_data(self, data):
+    def __balance_data(self, data, target_column_name = 'target'):
 
-        # get the number of the major intent
-        major_intent = data.intent.value_counts().max()
+        # get the number of the major target class
+        major_class = data[target_column_name].value_counts().max()
 
-        # for each intent, balance the data by oversampling using data augmentation
-        for intent in data.intent.unique():
-            intent_data = data[data.intent == intent]
-            total_augmentation = major_intent - intent_data.shape[0]
+        # for each target class, balance the data by oversampling using data augmentation
+        for target in data[target_column_name].unique():
+            class_data = data[data[target_column_name] == target]
+            total_augmentation = major_class - class_data.shape[0]
 
-            # if the number of the intent is less than the number of the major intent, oversample the data
+            # if the number of the target is less than the number of the major target, oversample the data
             if total_augmentation > 0:
                 for _ in range(total_augmentation):
 
                     # maybe the transformation can cause a exception, so we try to avoid it 
                     # replicating the same phrase
+                    sample = class_data.sample(1)
+                    text = sample.phrase_cleaned.values[0]
                     try:
-                        sample = intent_data.sample(1)
-                        text = sample.phrase_cleaned.values[0]
-                        phrase_augmentaded = self.__random_augmentation(text)
-                        data = self.__add_row(data, intent, text, phrase_augmentaded)
+                        text_augmentaded = self.__random_augmentation(text)
+                        data = self.__add_row(data, target, text, text_augmentaded)
                     except:
-                        data = self.__add_row(data, intent, text, text)
+                        data = self.__add_row(data, target, text, text)
 
         return data
 
@@ -151,17 +151,20 @@ class PrepareData():
         text = text[:random_index] + text[random_index + 1:]
         return text
 
-    def __add_row(self, data, intent, phrase, phrase_augmentaded):
+    def __add_row(self, data, target, phrase, phrase_augmentaded):
 
         '''
-        add a new row to the dataframe in format [intent, phrase, phrase_augmentaded]
+        add a new row to the dataframe in format [target, phrase, phrase_augmentaded]
         '''
 
-        data = pd.concat([data, pd.DataFrame([[intent, phrase, phrase_augmentaded]], columns = ['intent', 'phrase', 'phrase_cleaned'])], ignore_index = True, axis = 0)
+        data = pd.concat([data, pd.DataFrame([[target, phrase, phrase_augmentaded]], columns = ['target', 'phrase', 'phrase_cleaned'])], ignore_index = True, axis = 0)
         return data
 
 if __name__ == '__main__':
-    print('Starting preprocessing data...\n')
-    mkfeatures = PrepareData()
-    mkfeatures.prepare()
+
+    examples_mkfeatures = PrepareData('examples')
+    examples_mkfeatures.prepare('data/raw/examples/raw-phrase.parquet', 'data/raw/examples/raw-target.parquet')
+
+    sentiments_mkfeatures = PrepareData('sentiments')
+    sentiments_mkfeatures.prepare('data/raw/sentiments/raw-phrase.parquet', 'data/raw/sentiments/raw-target.parquet')
 
