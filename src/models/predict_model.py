@@ -27,6 +27,7 @@ class Predict():
         '''
 
         text_cleaned = text.lower()
+        # text_cleaned = Preprocessing().clean(text)
 
         # prepare text for prediction
         examples_text_encoded = self.__transform(self.EXAMPLES_TFIDF, text_cleaned)
@@ -100,4 +101,3 @@ if __name__ == '__main__':
     text = ' '.join(sys.argv[1:])
     predictor = Predict()
     print(predictor.predict(text))
-

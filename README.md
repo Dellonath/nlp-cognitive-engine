@@ -33,7 +33,7 @@
 
 First of all, the data <b>must be</b> in the same folder (data/raw) and in the following format (with these columns names and in .parquet format):
 
-| intent  | phrase |
+| target  | phrase |
 | ------------- | ------------- |
 | credit_card  | I would like a credit card |
 | credit_card  | How I can get a credit card? |
@@ -46,9 +46,9 @@ First of all, the data <b>must be</b> in the same folder (data/raw) and in the f
 | create_account  | I would like to create a account in this bank |
 | create_account  | How do I create an account in this bank? |
 
-Where the intent is the name of the intent and the phrase is the phrase that will be used to train the model. 
+Where the ```target``` is the name of the intent and ```phrase``` is the phrase that will be used to train the model. 
 
-In addition, is needed to split the intent (target) column and phrase column into two different files:
+In addition, is needed to split the intent (```target```) column and ```phrase``` column into two different files:
 *  raw-phrase.parquet for messages column;
 *  raw-target.parquet for intent column.
 
@@ -95,9 +95,14 @@ The output must be a json with some infos about the message and the predicted in
 
 ```json
 {
-    "user": {
+    "message": {
         "text": "I want a credit card", 
-        "cleaned": "i want a credit card"
+        "cleaned": "i want a credit card",
+        "sentiment": {
+            "positive": "0.0015173794",
+            "neutral": "0.9981304513",
+            "negative": "0.0003521693",
+        }
     }, 
     "intent": {
         "name": "credit_card", 
@@ -115,7 +120,7 @@ The output must be a json with some infos about the message and the predicted in
 }
 ```
 
-Where the user is the message that will be predicted, the intent is the predicted intent and the intents is a list of top 5 intents with their confidence. In addition, the response is the response that will be shown to the user, and created_at is the date and time when the message was predicted.
+The ```message``` have three fields: ```text```, ```cleaned``` and ```sentiment```. The ```text``` is the message without processing. The ```cleaned``` is the message that will be used to predict the intent. The ```sentiment``` is the user sentiment when wrote this message. The field ```intent``` have the most relevant intent (major confidence). The ```intents``` have a list of top five intents by confidence. The field ```response``` is the response that will be used as a response to the user. At least, ```created_at``` is the date and time when the message was predicted.
 
 <h2 align="center">
     API
