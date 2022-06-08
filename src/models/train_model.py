@@ -2,8 +2,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense, Input
-import keras.backend as K
-
 class CognitiveEngine():
 
     def __init__(self, input_shape, output_shape):
@@ -31,7 +29,7 @@ class CognitiveEngine():
 
         self.model.fit(train_data, train_labels, epochs = epochs)
 
-    def save_model(self, path = 'models/keras/model.h5'):
+    def save_model(self, path = 'models/keras/model'):
         # save the final model in the models directory
         self.model.save(path, save_format = 'h5')
 

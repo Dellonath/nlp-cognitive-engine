@@ -99,11 +99,13 @@ The output must be a json with some infos about the message and the predicted in
         {"intent": "change_password", "confidence": "0.0048914794"}, 
         {"intent": "alter_personal_data", "confidence": "0.0019387764"}, 
         {"intent": "check_credit_limit", "confidence": "0.00084826007"}
-    ]
+    ],
+    "response": "I guees you want a credit card. You can create a account in this bank and then you can receive a your credit card. Thank you.",
+    "created_at": "2022-06-07 18:58:11",
 }
 ```
 
-Where the user is the message that will be predicted, the intent is the predicted intent and the intents is a list of top 5 intents with their confidence.
+Where the user is the message that will be predicted, the intent is the predicted intent and the intents is a list of top 5 intents with their confidence. In addition, respose is the response that will be shown to the user and created_at is the date and time when the message was predicted.
 
 <h2 align="center">
     API
@@ -118,17 +120,13 @@ make deploy
 Now, just access the following url in your browser:
 
 ```url
-http://127.0.0.1:5000/predict?text=<TEXT>
+http://127.0.0.1:5000/predict?text=<user-message>
 ```
 
-E.g.
-```
+E.g.:
+```url
 http://127.0.0.1:5000/predict?text="I want a credit card"
 ```
-
-<p align="center">
-    <img width=700px src="https://user-images.githubusercontent.com/56659549/172020552-bd4c1be7-2608-4058-8388-8829769a834b.png">
-</p>
  
 <h2 align="center">
     Project Organization

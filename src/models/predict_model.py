@@ -2,16 +2,17 @@ from tensorflow import keras
 import pandas as pd
 import sys
 import pickle
+import datetime as datetime
 
 sys.path.append('src/features')
 from preprocessing import Preprocessing
-
 class Predict():
     
     def __init__(self):
         self.MODEL = keras.models.load_model('models/keras/model.h5')
         self.TFIDF = pickle.load(open('models/tfidf/vectorizer.pickle', 'rb'))
         self.TARGET = pd.read_parquet('data/train/train-target.parquet').columns
+        self.RESPONSES = pd.read_parquet('data/external/responses-phrases.parquet')
 
     def predict(self, text):
 
@@ -35,16 +36,24 @@ class Predict():
         best_intent_name = best_intent['intent']
         best_intent_confidence = best_intent['confidence']
 
+        # get now datetime
+        created_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # get the response
+        response = self.__get_response(best_intent_name)
+
         output = {
             'user': {
-                'text': text, # phrase that was predicted
-                'cleaned': text_cleaned, # phrase that was cleaned
+                'text': text, # original user phrase
+                'cleaned': text_cleaned # phrase that was cleaned and used to predict
             },
             'intent': {
-                'name': best_intent_name, # best intent
-                'confidence': best_intent_confidence, # confidence of the best intent
+                'name': best_intent_name,
+                'confidence': best_intent_confidence
             },            
-            'intents': top_five_intents # list of intents
+            'intents': top_five_intents, # list of intents
+            'response': response, # response
+            'created_at': created_at # datetime of response
         }
         
         return output
@@ -65,6 +74,9 @@ class Predict():
         top_five_intents = sorted(intents_array, key = lambda element: element['confidence'], reverse = True)[:5]
 
         return top_five_intents
+
+    def __get_response(self, intent):
+        return self.RESPONSES.query(f'intent == "{intent}"').response.values[0]
 
 if __name__ == '__main__':
     text = ' '.join(sys.argv[1:])
