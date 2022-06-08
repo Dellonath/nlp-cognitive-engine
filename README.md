@@ -31,7 +31,6 @@
     How to use
 </h2>
 
-
 First of all, the data <b>must be</b> in the same folder (data/raw) and in the following format (with these columns names and in .parquet format):
 
 | intent  | phrase |
@@ -53,24 +52,35 @@ In addition, is needed to split the intent (target) column and phrase column int
 *  raw-phrase.parquet for messages column;
 *  raw-target.parquet for intent column.
 
-This repository has an example of data in portuguese, but it can be used in any language, you just need to change the raw data files.
-_____________
+Another file is needed: the responses. In data/external is necessary to have a file with the responses-phrases.parquet (with this name). This file must have the following columns:
+*  intent: the name of the intent;
+*  response: the response that will be used as a response to the intent.
+
+| intent  | response |
+| ------------- | ------------- |
+| credit_card  | I guess you want a credit card. You can create an account in this bank and then you can receive your credit card. Thank you. |
+| alter_personal_data  | You can edit your personal data in your Profile on our App. Take a look!  |
+| change_password  | Do you need to change your password? You can do it in our app. |
+| ...  | ...  |
+| create_account  | Welcome to our bank. We need some personal information to create your account. Feel free with your money :). |
+
+This repository has an example of data in Portuguese, but it can be used in any language, you just need to change the raw data files.
+
+___________
 
 Now, you need clone the repository in your computer.
-
 ```terminal
   git clone https://github.com/Dellonath/nlp-cognitive-engine.git
 ```
 
-After that, you can run the following command to install all the dependencies:
-  
+After that, you can run the following command to create a virtual environment and install all the dependencies:  
 ```terminal
   python3 -m venv env 
   source env/bin/activate
   pip install -r requirements.txt
 ```
 
-At the end, you can run the following command to run the application and prepare it to be used:
+In the end, you can run the following command to run the application and prepare it to be used:
 ```terminal
   make all
 ```
@@ -100,24 +110,24 @@ The output must be a json with some infos about the message and the predicted in
         {"intent": "alter_personal_data", "confidence": "0.0019387764"}, 
         {"intent": "check_credit_limit", "confidence": "0.00084826007"}
     ],
-    "response": "I guees you want a credit card. You can create a account in this bank and then you can receive a your credit card. Thank you.",
+    "response": "I guess you want a credit card. You can create an account in this bank and then you can receive your credit card. Thank you.",
     "created_at": "2022-06-07 18:58:11",
 }
 ```
 
-Where the user is the message that will be predicted, the intent is the predicted intent and the intents is a list of top 5 intents with their confidence. In addition, respose is the response that will be shown to the user and created_at is the date and time when the message was predicted.
+Where the user is the message that will be predicted, the intent is the predicted intent and the intents is a list of top 5 intents with their confidence. In addition, the response is the response that will be shown to the user, and created_at is the date and time when the message was predicted.
 
 <h2 align="center">
     API
 </h2>
 
-You can execute the Cognitive Engine as a API to predict an intent of a message:
+You can execute the Cognitive Engine as an API to predict the intent of a message:
 
 ```terminal
 make deploy
 ```
 
-Now, just access the following url in your browser:
+Now, just access the following URL in your browser:
 
 ```url
 http://127.0.0.1:5000/predict?text=<user-message>
