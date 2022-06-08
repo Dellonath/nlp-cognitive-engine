@@ -45,6 +45,9 @@ class Predict():
         best_intent_name = best_intent['intent']
         best_intent_confidence = best_intent['confidence']
 
+        # if the confidence is low, we return the response for the intent
+        best_intent_name = best_intent_name if float(best_intent_confidence) > 0.3 else 'irrelevant'
+
         # get now datetime
         created_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -95,7 +98,7 @@ class Predict():
         return top_five_intents
 
     def __get_response(self, intent):
-        return self.RESPONSES.query(f'intent == "{intent}"').response.values[0]
+        return self.RESPONSES.query(f'target == "{intent}"').response.values[0]
 
 if __name__ == '__main__':
     text = ' '.join(sys.argv[1:])

@@ -11,7 +11,7 @@ class CognitiveEngine():
         self.model = Sequential([
             Input(self.input_shape),
             Dense(units = 128, activation = 'relu'),
-            Dense(units = 64, activation = 'relu'),
+            Dense(units = 32, activation = 'relu'),
             Dense(self.output_shape, activation = 'softmax')
         ]) 
 
@@ -21,7 +21,7 @@ class CognitiveEngine():
             metrics = ['acc']
         )
 
-    def train(self, train_data, train_targets, epochs = 25, validation_split = 0.0):
+    def train(self, train_data, train_targets, epochs = 15, validation_split = 0.0):
 
         '''
         method to train the model

@@ -16,21 +16,15 @@ class PrepareData():
         self.data_type = data_type
         self.preprocessing = Preprocessing()
         
-    def prepare(self, path_data, path_target):
+    def prepare(self, path):
 
         ''' 
         This method cleans the phrases in the data. It receives the name of the dataset in data/raw/ and the name of the output file in data/processed/
         with 'processed' tag
         ''' 
 
-        # read raw data files
-        target = self.__read_data(path_target)
-        phrase = self.__read_data(path_data)
-
-        # concatenate the data to facilitate balancing
-        # remove duplicated example messages
-        data = pd.concat([target, phrase], axis = 1).drop_duplicates(['phrase'])
-        data.columns = ['target', 'phrase']
+        # read raw data
+        data = self.__read_data(path).drop_duplicates(['phrase'])
 
         # create a column with the cleaned phrases
         data.insert(data.shape[1], 'phrase_cleaned', data.phrase.progress_apply(self.preprocessing.clean))
@@ -84,7 +78,7 @@ class PrepareData():
         # select one of the transformations, do nothing have a 60% chance
         random_augmentation_tag = random.choices(
             ['nothing', 'add_char', 'remove_char', 'duplicate_word', 'remove_word'],  
-            weights = [0.6, 0.1, 0.1, 0.1, 0.2],
+            weights = [0.5, 0.125, 0.125, 0.125, 0.125],
             k = 1
         )
 
@@ -163,8 +157,8 @@ class PrepareData():
 if __name__ == '__main__':
 
     examples_mkfeatures = PrepareData('examples')
-    examples_mkfeatures.prepare('data/raw/examples/raw-phrase.parquet', 'data/raw/examples/raw-target.parquet')
+    examples_mkfeatures.prepare('data/raw/examples/raw.parquet')
 
     sentiments_mkfeatures = PrepareData('sentiments')
-    sentiments_mkfeatures.prepare('data/raw/sentiments/raw-phrase.parquet', 'data/raw/sentiments/raw-target.parquet')
+    sentiments_mkfeatures.prepare('data/raw/sentiments/raw.parquet')
 

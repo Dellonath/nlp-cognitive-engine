@@ -7,7 +7,7 @@
 </p>
 
 <h2 align="center">
-    A Cognitive Engine using the KERAS framework and other tools to be used as a Natural Language Processing engine in Chatbots
+    A Cognitive Engine using the KERAS Deep Learning Framework to be used as a Natural Language Processing engine in Chatbots
 </h2>
 
 <br>
@@ -167,20 +167,21 @@ http://127.0.0.1:5000/predict?text="I want a credit card"
     │
     └── src                <- Source code for use in this project.
        │
-       ├── api             <- Scripts to make an API
-       │   └── api.py      <- Script to serve the model as an API
+       ├── api             <- Scripts to make an API.
+       │   └── api.py      <- Script to serve the model as an API.
        │
-       ├── data            <- Scripts to download or generate data
+       ├── data            <- Scripts to download or generate data.
        │   ├── prepare_data.py
        │   └── train_data.py
        │
-       ├── features        <- Scripts to turn clean data and prepare to encoder
+       ├── features        <- Scripts to turn clean data and prepare to encoder.
        │   └── preprocessing.py
        │
        └── models          <- Scripts to train models and then use trained models to make
-           │                  predictions
+           │                  predictions.
            ├── predict_model.py
-           └── train_model.py
+           ├── examples_model.py
+           └── sentiment_model.py
     
 
 
