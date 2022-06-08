@@ -59,7 +59,7 @@ _____________
 Now, you need clone the repository in your computer.
 
 ```terminal
-  git clone https://github.com/Dellonath/chatbot-cognitive-engine.git
+  git clone https://github.com/Dellonath/nlp-cognitive-engine.git
 ```
 
 After that, you can run the following command to install all the dependencies:
