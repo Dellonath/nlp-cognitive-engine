@@ -52,6 +52,3 @@ if __name__ == '__main__':
     SE = SentimentEngine(input_shape, output_shape)
     SE.train(TRAIN, TARGET)
     SE.save_model('models/keras/sentiments/model')
-
-
-

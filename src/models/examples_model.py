@@ -52,5 +52,3 @@ if __name__ == '__main__':
     CE = CognitiveEngine(input_shape, output_shape)
     CE.train(TRAIN, TARGET)
     CE.save_model('models/keras/examples/model')
-
-

@@ -52,6 +52,18 @@ In addition, is needed to split the intent (```target```) column and ```phrase``
 *  raw-phrase.parquet for messages column;
 *  raw-target.parquet for intent column.
 
+Another file is needed: the responses. In data/external is necessary to have a file with the responses-phrases.parquet (with this name). This file must have the following columns:
+*  intent: the name of the intent;
+*  response: the response that will be used as a response to the intent.
+
+| intent  | response |
+| ------------- | ------------- |
+| credit_card  | I guess you want a credit card. You can create an account in this bank and then you can receive your credit card. Thank you. |
+| alter_personal_data  | You can edit your personal data in your Profile on our App. Take a look!  |
+| change_password  | Do you need to change your password? You can do it in our app. |
+| ...  | ...  |
+| create_account  | Welcome to our bank. We need some personal information to create your account. Feel free with your money :). |
+
 This repository has an example of data in Portuguese, but it can be used in any language, you just need to change the raw data files.
 
 ___________
@@ -97,17 +109,18 @@ The output must be a json with some infos about the message and the predicted in
         "confidence": "0.9811101042"
     }, 
     "intents": [
-        {"name": "credit_card", "confidence": "0.9811101042"}, 
-        {"name": "create_account", "confidence": "0.0079928385"}, 
-        {"name": "change_password", "confidence": "0.0048914794"}, 
-        {"name": "alter_personal_data", "confidence": "0.0019387764"}, 
-        {"name": "check_credit_limit", "confidence": "0.00084826007"}
+        {"intent": "credit_card", "confidence": "0.9811101042"}, 
+        {"intent": "create_account", "confidence": "0.0079928385"}, 
+        {"intent": "change_password", "confidence": "0.0048914794"}, 
+        {"intent": "alter_personal_data", "confidence": "0.0019387764"}, 
+        {"intent": "check_credit_limit", "confidence": "0.00084826007"}
     ],
+    "response": "I guess you want a credit card. You can create an account in this bank and then you can receive your credit card. Thank you.",
     "created_at": "2022-06-07 18:58:11",
 }
 ```
 
-The ```message``` have three fields: ```text```, ```cleaned``` and ```sentiment```. The ```text``` is the message without processing. The ```cleaned``` is the message that will be used to predict the intent. The ```sentiment``` is the user sentiment when wrote this message. The field ```intent``` have the most relevant intent (major confidence), it can be used to return some Chatbot responses. The ```intents``` have a list of top five intents by confidence. At least, ```created_at``` is the date and time when the message was predicted.
+The ```message``` have three fields: ```text```, ```cleaned``` and ```sentiment```. The ```text``` is the message without processing. The ```cleaned``` is the message that will be used to predict the intent. The ```sentiment``` is the user sentiment when wrote this message. The field ```intent``` have the most relevant intent (major confidence). The ```intents``` have a list of top five intents by confidence. The field ```response``` is the response that will be used as a response to the user. At least, ```created_at``` is the date and time when the message was predicted.
 
 <h2 align="center">
     API

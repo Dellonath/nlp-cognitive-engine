@@ -161,4 +161,3 @@ if __name__ == '__main__':
 
     sentiments_mkfeatures = PrepareData('sentiments')
     sentiments_mkfeatures.prepare('data/raw/sentiments/raw.parquet')
-

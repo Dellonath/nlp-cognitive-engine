@@ -47,3 +47,4 @@ class Preprocessing():
 if __name__ == '__main__':
     preprocess = Preprocessing()
     print(preprocess.clean(' '.join(sys.argv[1:]))) 
+    
