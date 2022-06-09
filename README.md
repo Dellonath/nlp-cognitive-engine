@@ -1,13 +1,13 @@
 <h1 align="center">
-    Cognitive Engine for Natural Language Processing
+  Cognitive Engine for Natural Language Processing
 </h1>
 
 <p align="center">
-    <img width=600px src="https://user-images.githubusercontent.com/56659549/171969411-476203ab-d016-4946-a163-ee8b1f6de37d.jpg">
+  <img width=600px src="https://user-images.githubusercontent.com/56659549/171969411-476203ab-d016-4946-a163-ee8b1f6de37d.jpg">
 </p>
 
 <h2 align="center">
-    A Cognitive Engine using the KERAS Deep Learning Framework to be used as a Natural Language Processing engine in Chatbots
+  A Cognitive Engine using the KERAS Deep Learning Framework to be used as a Natural Language Processing engine in Chatbots
 </h2>
 
 <br>
@@ -28,10 +28,10 @@
 <br>
  
 <h2 align="center">
-    How to use
+  Considerations
 </h2>
 
-First of all, the data <b>must be</b> in the same folder (data/raw) and in the following format (with these columns names and in .parquet format):
+First of all, the data file <b>must be</b> in the following format (with these columns names and in ```.parquet``` format):
 
 | target  | phrase |
 | ------------- | ------------- |
@@ -46,13 +46,10 @@ First of all, the data <b>must be</b> in the same folder (data/raw) and in the f
 | create_account  | I would like to create a account in this bank |
 | create_account  | How do I create an account in this bank? |
 
-Where the ```target``` is the name of the intent and ```phrase``` is the phrase that will be used to train the model. 
+Where the ```target``` is the name of the target (intent) and ```phrase``` is the example message. In addition, the file name <b>must be</b> ```raw.parquet``` for both data/raw/examples.
+<b>This dataset will be used to train de Cognitive Engine</b>
 
-In addition, is needed to split the intent (```target```) column and ```phrase``` column into two different files:
-*  raw-phrase.parquet for messages column;
-*  raw-target.parquet for intent column.
-
-Another file is needed: the responses. In data/external is necessary to have a file with the responses-phrases.csv (with this name). This file must have the following columns:
+Another file is needed: the responses. In data/external is necessary to have a file with the ```responses-phrases.csv``` (with this name). This file must have the following columns:
 *  target: the name of the intent;
 *  response: the response that will be used as a response to the intent.
 
@@ -64,14 +61,16 @@ Another file is needed: the responses. In data/external is necessary to have a f
 | ...  | ...  |
 | create_account  | Welcome to our bank. We need some personal information to create your account. Feel free with your money :). |
 
-This repository has an example of data in Portuguese, but it can be used in any language, you just need to change the raw data files.
+<h2 align="center">
+  Installation
+</h2>
 
-___________
-
-Now, you need clone the repository in your computer.
+You need clone the repository in your computer:
 ```terminal
   git clone https://github.com/Dellonath/nlp-cognitive-engine.git
 ```
+
+This repository has an example of data in Portuguese, but it can be used in any language, you just need to change the raw data files.
 
 After that, you can run the following command to create a virtual environment and install all the dependencies:  
 ```terminal
@@ -80,15 +79,26 @@ After that, you can run the following command to create a virtual environment an
   pip install -r requirements.txt
 ```
 
-In the end, you can run the following command to run the application and prepare it to be used:
+Then, you can run the following command to run the application and prepare it to be used. This command will prepare the data, train the models and save it in the model folder:
 ```terminal
   make all
 ```
 
-This command will prepare the data, train the model and save it in the model folder. After that, you can run the following command to predict intent to a message:
+At least, you can execute the Cognitive Engine as an API to predict the intent of a message:
 
 ```terminal
-  make predict input="I want a credit card"
+make deploy
+```
+
+Now, just access the following URL in your browser:
+
+```url
+http://127.0.0.1:5000/predict?text=<user-message>
+```
+
+E.g.:
+```url
+http://127.0.0.1:5000/predict?text="I want a credit card"
 ```
 
 The output must be a json with some infos about the message and the predicted intent:
@@ -121,30 +131,9 @@ The output must be a json with some infos about the message and the predicted in
 ```
 
 The ```message``` have three fields: ```text```, ```cleaned``` and ```sentiment```. The ```text``` is the message without processing. The ```cleaned``` is the message that will be used to predict the intent. The ```sentiment``` is the user sentiment when wrote this message. The field ```intent``` have the most relevant intent (major confidence). The ```intents``` have a list of top five intents by confidence. The field ```response``` is the response that will be used as a response to the user. At least, ```created_at``` is the date and time when the message was predicted.
-
-<h2 align="center">
-    API
-</h2>
-
-You can execute the Cognitive Engine as an API to predict the intent of a message:
-
-```terminal
-make deploy
-```
-
-Now, just access the following URL in your browser:
-
-```url
-http://127.0.0.1:5000/predict?text=<user-message>
-```
-
-E.g.:
-```url
-http://127.0.0.1:5000/predict?text="I want a credit card"
-```
  
 <h2 align="center">
-    Project Organization
+  Project Organization
 </h2>
 
     ├── LICENSE
