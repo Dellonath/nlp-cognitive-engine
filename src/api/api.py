@@ -1,10 +1,13 @@
 from flask import Flask, request
+from flask_cors import CORS
 import sys
 
 sys.path.append('src/models')
 from predict_model import Predict
     
 app = Flask(__name__)
+CORS(app)
+
 predictor = Predict()
 
 @app.route('/', methods = ['GET'])

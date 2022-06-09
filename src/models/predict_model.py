@@ -18,7 +18,6 @@ class Predict():
         self.SENTIMENTS_TFIDF = pickle.load(open('models/tfidf/sentiments/vectorizer.pickle', 'rb'))
         
         self.intent = pd.read_parquet('data/train/examples/train-target.parquet').columns
-        self.RESPONSES = pd.read_parquet('data/external/responses-phrases.parquet')
 
     def predict(self, text):
 
@@ -74,7 +73,6 @@ class Predict():
                 'confidence': best_intent_confidence
             },            
             'intents': top_five_intents, # list of intents
-            'response': response, # response
             'created_at': created_at # datetime of response
         }
         
@@ -89,16 +87,13 @@ class Predict():
     def __get_top_intents(self, prediction_array, ntop = 5):
 
         # save a list of confidence for each intent
-        intents_array = [{'intent': self.intent[i], 'confidence': '{:.10f}'.format(prediction_array[i])} for i in range(len(self.intent))]
+        intents_array = [{'name': self.intent[i], 'confidence': '{:.10f}'.format(prediction_array[i])} for i in range(len(self.intent))]
 
         # organize the output
         # sort the intents by confidence and select top n
         top_five_intents = sorted(intents_array, key = lambda element: element['confidence'], reverse = True)[:ntop]
 
         return top_five_intents
-
-    def __get_response(self, intent):
-        return self.RESPONSES.query(f'target == "{intent}"').response.values[0]
 
 if __name__ == '__main__':
     text = ' '.join(sys.argv[1:])
