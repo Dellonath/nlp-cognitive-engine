@@ -42,7 +42,7 @@ class Predict():
 
         # the best intent
         best_intent = top_five_intents[0]
-        best_intent_name = best_intent['intent']
+        best_intent_name = best_intent['name']
         best_intent_confidence = best_intent['confidence']
 
         # if the confidence is low, we return the response for the intent
@@ -89,7 +89,7 @@ class Predict():
     def __get_top_intents(self, prediction_array, ntop = 5):
 
         # save a list of confidence for each intent
-        intents_array = [{'intent': self.intent[i], 'confidence': '{:.10f}'.format(prediction_array[i])} for i in range(len(self.intent))]
+        intents_array = [{'name': self.intent[i], 'confidence': '{:.10f}'.format(prediction_array[i])} for i in range(len(self.intent))]
 
         # organize the output
         # sort the intents by confidence and select top n

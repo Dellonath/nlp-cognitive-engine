@@ -109,11 +109,11 @@ The output must be a json with some infos about the message and the predicted in
         "confidence": "0.9811101042"
     }, 
     "intents": [
-        {"intent": "credit_card", "confidence": "0.9811101042"}, 
-        {"intent": "create_account", "confidence": "0.0079928385"}, 
-        {"intent": "change_password", "confidence": "0.0048914794"}, 
-        {"intent": "alter_personal_data", "confidence": "0.0019387764"}, 
-        {"intent": "check_credit_limit", "confidence": "0.00084826007"}
+        {"name": "credit_card", "confidence": "0.9811101042"}, 
+        {"name": "create_account", "confidence": "0.0079928385"}, 
+        {"name": "change_password", "confidence": "0.0048914794"}, 
+        {"name": "alter_personal_data", "confidence": "0.0019387764"}, 
+        {"name": "check_credit_limit", "confidence": "0.00084826007"}
     ],
     "response": "I guess you want a credit card. You can create an account in this bank and then you can receive your credit card. Thank you.",
     "created_at": "2022-06-07 18:58:11",
