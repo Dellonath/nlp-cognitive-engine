@@ -52,11 +52,11 @@ In addition, is needed to split the intent (```target```) column and ```phrase``
 *  raw-phrase.parquet for messages column;
 *  raw-target.parquet for intent column.
 
-Another file is needed: the responses. In data/external is necessary to have a file with the responses-phrases.parquet (with this name). This file must have the following columns:
-*  intent: the name of the intent;
+Another file is needed: the responses. In data/external is necessary to have a file with the responses-phrases.csv (with this name). This file must have the following columns:
+*  target: the name of the intent;
 *  response: the response that will be used as a response to the intent.
 
-| intent  | response |
+| target  | response |
 | ------------- | ------------- |
 | credit_card  | I guess you want a credit card. You can create an account in this bank and then you can receive your credit card. Thank you. |
 | alter_personal_data  | You can edit your personal data in your Profile on our App. Take a look!  |
