@@ -41,7 +41,7 @@ class Predict():
 
         # the best intent
         best_intent = top_five_intents[0]
-        best_intent_name = best_intent['intent']
+        best_intent_name = best_intent['name']
         best_intent_confidence = best_intent['confidence']
 
         # if the confidence is low, we return the response for the intent
@@ -49,9 +49,6 @@ class Predict():
 
         # get now datetime
         created_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # get the response
-        response = self.__get_response(best_intent_name)
 
         # phrase sentiment
         negative = '{:.10f}'.format(sentiments_model_prediction[0])
