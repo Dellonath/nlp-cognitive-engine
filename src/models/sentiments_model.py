@@ -10,8 +10,8 @@ class SentimentEngine():
 
         self.model = Sequential([
             Input(self.input_shape),
+            Dense(units = 256, activation = 'relu'),
             Dense(units = 128, activation = 'relu'),
-            Dense(units = 64, activation = 'relu'),
             Dense(self.output_shape, activation = 'softmax')
         ]) 
 
@@ -21,7 +21,7 @@ class SentimentEngine():
             metrics = ['acc']
         )
 
-    def train(self, train_data, train_targets, epochs = 4, validation_split = 0.2):
+    def train(self, train_data, train_targets, epochs = 10, validation_split = 0.15):
 
         '''
         method to train the model

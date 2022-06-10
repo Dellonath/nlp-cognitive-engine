@@ -17,7 +17,10 @@ class Predict():
         self.EXAMPLES_TFIDF = pickle.load(open('models/tfidf/examples/vectorizer.pickle', 'rb'))
         self.SENTIMENTS_TFIDF = pickle.load(open('models/tfidf/sentiments/vectorizer.pickle', 'rb'))
         
-        self.intent = pd.read_parquet('data/train/examples/train-target.parquet').columns
+        # load the intents and sentiments columns (labels) to preserve the order of the one hot target for each one
+        self.intents = pd.read_parquet('data/train/examples/train-target.parquet').columns
+        self.sentiments = pd.read_parquet('data/train/sentiments/train-target.parquet').columns
+
         self.RESPONSES = pd.read_csv('data/external/responses-phrases.csv', sep = ';')
 
     def predict(self, text):
@@ -38,7 +41,8 @@ class Predict():
         sentiments_model_prediction = self.__model_predict(self.SENTIMENTS_MODEL, sentiments_text_encoded)
 
         # get the top 5 intents
-        top_five_intents = self.__get_top_intents(examples_model_prediction, 5)
+        top_five_intents = self.__get_topn_confidences(examples_model_prediction, self.intents, 5)
+        top_three_sentiments = self.__get_topn_confidences(sentiments_model_prediction, self.sentiments, 3)
 
         # the best intent
         best_intent = top_five_intents[0]
@@ -55,19 +59,18 @@ class Predict():
         response = self.__get_response(best_intent_name)
 
         # phrase sentiment
-        negative = '{:.10f}'.format(sentiments_model_prediction[0])
-        neutral = '{:.10f}'.format(sentiments_model_prediction[1])
-        positive = '{:.10f}'.format(sentiments_model_prediction[2])
-        
+        # top_three_sentiments = [{"negative": "0.0663452819"}, {"neutral": "0.0025401216"}, {"positive": "0.9311146140"}] (not exactly in this order)
+
+        sentiments = {}
+        sentiments[top_three_sentiments[0]['name']] = top_three_sentiments[0]['confidence']
+        sentiments[top_three_sentiments[1]['name']] = top_three_sentiments[1]['confidence']
+        sentiments[top_three_sentiments[2]['name']] = top_three_sentiments[2]['confidence']
+
         output = {
             'message': {
                 'text': text, # original user phrase
                 'cleaned': text_cleaned, # phrase that was cleaned and used to predict
-                'sentiment': {
-                    'positive': positive,
-                    'neutral': neutral,
-                    'negative': negative        
-                }
+                'sentiment': sentiments
             },
             'intent': {
                 'name': best_intent_name,
@@ -86,14 +89,14 @@ class Predict():
     def __model_predict(self, model, text):
         return model.predict(text)[0]
 
-    def __get_top_intents(self, prediction_array, ntop = 5):
+    def __get_topn_confidences(self, prediction_array, labels, topn = 5):
 
         # save a list of confidence for each intent
-        intents_array = [{'name': self.intent[i], 'confidence': '{:.10f}'.format(prediction_array[i])} for i in range(len(self.intent))]
+        intents_array = [{'name': labels[i], 'confidence': '{:.10f}'.format(prediction_array[i])} for i in range(len(labels))]
 
         # organize the output
         # sort the intents by confidence and select top n
-        top_five_intents = sorted(intents_array, key = lambda element: element['confidence'], reverse = True)[:ntop]
+        top_five_intents = sorted(intents_array, key = lambda element: element['confidence'], reverse = True)[:topn]
 
         return top_five_intents
 
