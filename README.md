@@ -3,12 +3,12 @@
 </h1>
 
 <p align="center">
-  <img width=600px src="https://user-images.githubusercontent.com/56659549/171969411-476203ab-d016-4946-a163-ee8b1f6de37d.jpg">
+  <img width=500px src="https://user-images.githubusercontent.com/56659549/171969411-476203ab-d016-4946-a163-ee8b1f6de37d.jpg">
 </p>
 
-<h2 align="center">
+<h3 align="center">
   A Cognitive Engine using the KERAS Deep Learning Framework to be used as a Natural Language Processing engine in Chatbots
-</h2>
+</h3>
 
 <br>
 
